@@ -28,11 +28,11 @@ array_structure* generate_arr(int N){   //Функция создающая, з�
     if (!array->two_dimentional_array) { printf("Error: Memory allocation failed.\nCode 2\n"); }
     
     for (int i = 0; i < N; ++i){    //Резервирование памяти для масивов случайной длины. Для ограничения размера добавить %n, где n желаемый размер, после rand() в след. 5 строках.
-        array->size_array[i] = rand()%8;
+        array->size_array[i] = rand()%8 +1 ;
         for (int j = 0; j < i; ++j){    //Проверка длин предыдущих массивов, если такая длина уже встречалась, генерируем и провверяем заного.
             if (array->size_array[i] == array->size_array[j]){
                 j = 0;
-                array->size_array[i] = rand()%8; 
+                array->size_array[i] = rand()%8 + 1; 
             }
         }
         array->two_dimentional_array[i] = (DATA_TYPE*)malloc(array->size_array[i] * sizeof(DATA_TYPE));
