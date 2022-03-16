@@ -4,49 +4,49 @@
 
 #define DATA_TYPE int
 
-typedef struct ARRAY_STRUCTURE{  //Структура в которой хранится нужный массив
-    DATA_TYPE** two_dimentional_array;    //двумерный массив
-    int* size_array;    //массив хранящий длины массивов случайной длины
-    int size;   //размер главного массива
+typedef struct ARRAY_STRUCTURE{  //РЎС‚СЂСѓРєС‚СѓСЂР° РІ РєРѕС‚РѕСЂРѕР№ С…СЂР°РЅРёС‚СЃСЏ РЅСѓР¶РЅС‹Р№ РјР°СЃСЃРёРІ
+    DATA_TYPE** two_dimentional_array;    //РґРІСѓРјРµСЂРЅС‹Р№ РјР°СЃСЃРёРІ
+    int* size_array;    //РјР°СЃСЃРёРІ С…СЂР°РЅСЏС‰РёР№ РґР»РёРЅС‹ РјР°СЃСЃРёРІРѕРІ СЃР»СѓС‡Р°Р№РЅРѕР№ РґР»РёРЅС‹
+    int size;   //СЂР°Р·РјРµСЂ РіР»Р°РІРЅРѕРіРѕ РјР°СЃСЃРёРІР°
 } array_structure;
 
-int cmp_ascent(const void* a, const void* b){   //Сравнение по возрастанию (a>b)
+int cmp_ascent(const void* a, const void* b){   //РЎСЂР°РІРЅРµРЅРёРµ РїРѕ РІРѕР·СЂР°СЃС‚Р°РЅРёСЋ (a>b)
     return (*(int*)a - *(int*)b);
 }
 
-int cmp_descent(const void* a, const void* b) { //Сравнение по убыванию (b>a)
+int cmp_descent(const void* a, const void* b) { //РЎСЂР°РІРЅРµРЅРёРµ РїРѕ СѓР±С‹РІР°РЅРёСЋ (b>a)
     return (*(int*)b - *(int*)a);
 }
 
-array_structure* generate_arr(int N){   //Функция создающая, заполняющая и сортирующая массив.
+array_structure* generate_arr(int N){   //Р¤СѓРЅРєС†РёСЏ СЃРѕР·РґР°СЋС‰Р°СЏ, Р·Р°РїРѕР»РЅСЏСЋС‰Р°СЏ Рё СЃРѕСЂС‚РёСЂСѓСЋС‰Р°СЏ РјР°СЃСЃРёРІ.
     
-    array_structure* array = (array_structure*)malloc(sizeof(array_structure));   //Резервирование памяти для структуры, двумерного массива и массива длин.
+    array_structure* array = (array_structure*)malloc(sizeof(array_structure));   //Р РµР·РµСЂРІРёСЂРѕРІР°РЅРёРµ РїР°РјСЏС‚Рё РґР»СЏ СЃС‚СЂСѓРєС‚СѓСЂС‹, РґРІСѓРјРµСЂРЅРѕРіРѕ РјР°СЃСЃРёРІР° Рё РјР°СЃСЃРёРІР° РґР»РёРЅ.
     if (!array) { printf("Error: Memory allocation failed.\nCode 0\n"); }
     array->size_array = (int*)malloc(N * sizeof(int));
     if (!array->size_array) { printf("Error: Memory allocation failed.\nCode 1\n"); }
     array->two_dimentional_array = (DATA_TYPE**)malloc(N * sizeof(DATA_TYPE*));
     if (!array->two_dimentional_array) { printf("Error: Memory allocation failed.\nCode 2\n"); }
     
-    for (int i = 0; i < N; ++i){    //Резервирование памяти для масивов случайной длины (для ограничения размера добавить %n, где n желаемый размер, после rand() в след. 5 строках)
-        array->size_array[i] = rand();
-        for (int j = 0; j < i; ++j){    //Проверка длин предыдущих массивов, если такая длина уже встречалась, генерируем и провверяем заного.
+    for (int i = 0; i < N; ++i){    //Р РµР·РµСЂРІРёСЂРѕРІР°РЅРёРµ РїР°РјСЏС‚Рё РґР»СЏ РјР°СЃРёРІРѕРІ СЃР»СѓС‡Р°Р№РЅРѕР№ РґР»РёРЅС‹. Р”Р»СЏ РѕРіСЂР°РЅРёС‡РµРЅРёСЏ СЂР°Р·РјРµСЂР° РґРѕР±Р°РІРёС‚СЊ %n, РіРґРµ n Р¶РµР»Р°РµРјС‹Р№ СЂР°Р·РјРµСЂ, РїРѕСЃР»Рµ rand() РІ СЃР»РµРґ. 5 СЃС‚СЂРѕРєР°С….
+        array->size_array[i] = rand()%8;
+        for (int j = 0; j < i; ++j){    //РџСЂРѕРІРµСЂРєР° РґР»РёРЅ РїСЂРµРґС‹РґСѓС‰РёС… РјР°СЃСЃРёРІРѕРІ, РµСЃР»Рё С‚Р°РєР°СЏ РґР»РёРЅР° СѓР¶Рµ РІСЃС‚СЂРµС‡Р°Р»Р°СЃСЊ, РіРµРЅРµСЂРёСЂСѓРµРј Рё РїСЂРѕРІРІРµСЂСЏРµРј Р·Р°РЅРѕРіРѕ.
             if (array->size_array[i] == array->size_array[j]){
                 j = 0;
-                array->size_array[i] = rand(); 
+                array->size_array[i] = rand()%8; 
             }
         }
         array->two_dimentional_array[i] = (DATA_TYPE*)malloc(array->size_array[i] * sizeof(DATA_TYPE));
         if (!array->two_dimentional_array[i]) { printf("Error: Memory allocation failed.\nCode 3:%d\n", i); }
     }
 
-    array->size = N;  //Заполнение массивов.
+    array->size = N;  //Р—Р°РїРѕР»РЅРµРЅРёРµ РјР°СЃСЃРёРІРѕРІ.
     for (int i = 0; i < N; ++i) {
         for (int j = 0; j < array->size_array[i]; ++j) {
-            array->two_dimentional_array[i][j] = rand();
+            array->two_dimentional_array[i][j] = (DATA_TYPE)rand();
         }
     }
 
-    for (int i = 0; i < N; ++i) {   //Сортировка массивов.
+    for (int i = 0; i < N; ++i) {   //РЎРѕСЂС‚РёСЂРѕРІРєР° РјР°СЃСЃРёРІРѕРІ.
         if (i % 2 == 0) {
             qsort(array->two_dimentional_array[i], array->size_array[i], sizeof(DATA_TYPE), cmp_ascent);
         }
@@ -57,7 +57,7 @@ array_structure* generate_arr(int N){   //Функция создающая, заполняющая и сорти
     return array;
 }
 
-void write_arr(array_structure* array){ //Вывод массива на экран.
+void write_arr(array_structure* array){ //Р’С‹РІРѕРґ РјР°СЃСЃРёРІР° РЅР° СЌРєСЂР°РЅ.
     for (int i = 0; i < array->size; ++i) {
         for (int j = 0; j < array->size_array[i]; ++j) {
             printf("%d ", array->two_dimentional_array[i][j]);
@@ -66,7 +66,7 @@ void write_arr(array_structure* array){ //Вывод массива на экран.
     }
 }
 
-void free_array(array_structure* array){    //Освобождение памяти.
+void free_array(array_structure* array){    //РћСЃРІРѕР±РѕР¶РґРµРЅРёРµ РїР°РјСЏС‚Рё.
     for (int i = 0; i < array->size; ++i) {
         free(array->two_dimentional_array[i]);
     }
@@ -78,7 +78,7 @@ void free_array(array_structure* array){    //Освобождение памяти.
 int main(){
     srand(time(NULL));
     printf("Enter number:");    
-    int N;  //Считывание параметра N.
+    int N;  //РЎС‡РёС‚С‹РІР°РЅРёРµ РїР°СЂР°РјРµС‚СЂР° N.
     if(!scanf_s("%d", &N)){
         printf("Error: Incorrect input.\n");
         return 0;
